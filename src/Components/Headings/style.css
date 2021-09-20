@@ -1,0 +1,41 @@
+.mainHeadings{
+    font-family: arial, Courier, monospace;
+    font-weight: 900;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    text-align: center;
+    letter-spacing: 1.2px;
+    color: rgb(83, 90, 89);
+    margin-top: 2rem;
+}
+.subHeadings{
+    color: white;
+    margin: 10px 0px;
+    padding: 20px;
+    font-weight: bold;
+    background-color: #fcb812;
+    text-transform: uppercase;
+    font-family: arial;
+    font-size: 20px;
+}
+.required-mark{
+    color: #ff3636;
+}
+.sub_subHeadings{
+    font-family: arial;
+    color: #fff;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background-color: rgb(102, 97, 97);
+    padding: 15px;
+    margin: 25px 25px;
+}
+.popup_mainHeadings{
+    font-family: arial, Courier, monospace;
+    font-weight: 600;
+    font-size: 1.0rem;
+    text-transform: capitalize;
+    letter-spacing: 1.2px;
+    color: rgb(83, 90, 89);
+
+}

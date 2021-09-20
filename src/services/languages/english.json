@@ -1,0 +1,64 @@
+{
+    "products": {
+        "all_products": {
+            "heading": "Products",
+            "links": [
+                "All",
+                "Online"
+            ],
+            "add_new_button": "Add New Products",
+            "filters": {
+                "filters_category": [
+                    "Select Category",
+                    "Status",
+                    "Date",
+                    "Filter"
+                ],
+                "filters_product": [
+                    "Search Product",
+                    "Search"
+                ]
+            },
+            "row_titles": [
+                "Image",
+                "SKU",
+                "Product Name",
+                "Status",
+                "Stock",
+                "Price",
+                "Category",
+                "Date"
+            ]
+        },
+        "add_products": {
+            "heading": "Add New Product",
+            "cover": ["COVER IMAGE", "Upload or Drag a product cover image"],
+            "textboxes": [
+                "Product Name English",
+                "Product Name Arabic"
+            ],
+            "dropdowns": [
+                "Select any Category",
+                {
+                    "product_type": {
+                        "Name": "Product Type",
+                        "optional": "Single / Multiple"
+                    }
+                }
+            ],
+            "add_variations_textboxes": [
+                "Type",
+                "Value",
+                "SKU",
+                "Quantity",
+                "Unit",
+                "Price"
+            ],
+            "textarea": [
+                "Short description about this prodcuct",
+                "Short description about this prodcuct in Arabic"
+            ],
+            "buttons": ["Add", "Create Product", "Create & Add New"]
+        }
+    }
+}
