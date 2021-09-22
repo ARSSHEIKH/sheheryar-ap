@@ -1,7 +1,8 @@
 //#region  imports
 import React, { Suspense, useEffect } from 'react';
 import loadingImg from "../../images/loading-gif.gif";
-import AddProductsList from "./AddProductsList"
+import AddProductsList from "./AddProductsList";
+import LanguageSwitches from "../Togglebutton/LanguageSwitches"
 import "../../App.css"
 
 //#region material-ui
@@ -119,7 +120,7 @@ const useStyles = makeStyles((theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
-        marginLeft: -drawerWidth+30,
+        marginLeft: -drawerWidth + 30,
     },
     contentShift: {
         transition: theme.transitions.create('margin', {
@@ -202,6 +203,10 @@ export default function DrawerPage() {
     const pages = [
         "Dashboard",
         "Products",
+        "Orders",
+        "Reports",
+        "Support",
+        "Settings"
     ]
     //#endregion
 
@@ -338,6 +343,8 @@ export default function DrawerPage() {
                         )
                     }
                     )}
+                    
+                    <LanguageSwitches />
                 </List>
             </Drawer>
             <main

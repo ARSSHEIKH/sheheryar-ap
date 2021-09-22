@@ -1,9 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import "../../App.css"
 
 const useStyles = makeStyles((theme) => ({
-    reports: {
+
+    orderStatus: {
         display: "flex",
         flexDirection: "column",
         flexWrap: "wrap",
@@ -18,27 +20,25 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function Report({ lang_mode }) {
+
+export default function OrderShortStatus({ lang_mode }) {
     const classes = useStyles();
     const temp_arr = [
-        "800 SR",
-        "700 SR",
-        "600 SR",
+        "800",
+        "700",
     ]
     return (
         <>
-            <div className={classes.reports}>
-                <div>{lang_mode[0]}</div>
+            <div className={classes.orderStatus}>
+                <div >{lang_mode[0]}</div>
                 <div className={classes.dataItems}>{temp_arr[0]}</div>
             </div>
-            <div className={classes.reports}>
-                <div>{lang_mode[1]}</div>
+            <div className={classes.orderStatus}>
+                <div >{lang_mode[1]}</div>
                 <div className={classes.dataItems}>{temp_arr[1]}</div>
             </div>
-            <div className={classes.reports}>
-                <div>{lang_mode[2]}</div>
-                <div className={classes.dataItems} style={{ color: "#37dd97" }}>{temp_arr[2]}</div>
-            </div>
         </>
+
+
     );
 }

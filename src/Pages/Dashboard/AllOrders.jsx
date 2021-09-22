@@ -3,37 +3,29 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import "../../App.css"
 
-
 const useStyles = makeStyles((theme) => ({
-    root: {
-        marginLeft: "0.1rem"
+    reports: {
+        display: "flex",
+        flexDirection: "column",
+        flexWrap: "wrap",
+        margin: "1rem",
+        fontWeight: "bold",
+        textAlign: "center",
+        color: "#000000"
+    },
+    dataItems: {
+        marginTop: "2rem"
     }
 }));
 
-export default function AllOrders() {
+export default function AllOrders({lang_mode}) {
     const classes = useStyles();
     return (
 
-        <Grid container item xs={12} spacing={1}>
-            {/* Title */}
-            <Grid item xs={12} className={`${classes.root} dashboard-text`}>
-                All Orders
-            </Grid>
-
-            <Grid item xs={12}>
-            </Grid>
-            <Grid item xs={12}>
-            </Grid>
-            <Grid item xs={12}>
-            </Grid>
-            <Grid item xs={12}>
-            </Grid>
-
-            {/* Data */}
-            <Grid item xs={12} className={`${classes.root} dashboard-text`}>
-                40
-            </Grid>
-        </Grid>
+        <div className={classes.reports}>
+            <div>{lang_mode[2]}</div>
+            <div className={classes.dataItems}>800</div>
+        </div>
 
 
     );

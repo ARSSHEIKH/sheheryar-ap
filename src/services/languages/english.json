@@ -60,5 +60,10 @@
             ],
             "buttons": ["Add", "Create Product", "Create & Add New"]
         }
+    },
+    "dashboard":{
+        "reports": ["Sales", "Tax", "Earnings"],
+        "orders": ["Active Orders", "Completed Orders", "All Orders"],
+        "orders_details": ["Order", "Status", "Time"]
     }
 }

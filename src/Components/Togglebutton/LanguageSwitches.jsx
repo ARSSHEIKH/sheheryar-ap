@@ -65,19 +65,19 @@ const [lang_toggle, set_lang_toggle] = useState(true);
 const dispatch = useDispatch()
   const handleChange = (event) => {
     set_lang_toggle(event.target.checked)
-        dispatch({type: lang_toggle})
+        dispatch({type: event.target.checked})
     
   };
 
   return (
     <Typography component="div">
       <Grid component="label" container alignItems="center" spacing={1}>
-        <Grid item>{!lang_toggle ? "EN" : "AR"} Mode</Grid>
+        <Grid item>{lang_toggle ? "EN" : "AR"} Mode</Grid>
         <Grid item>
           <FormControlLabel
             control={
               <IOSSwitch
-                // checked={state.checkedB}
+                checked={lang_toggle}
                 onChange={handleChange}
                 name="checkedB"
               />
