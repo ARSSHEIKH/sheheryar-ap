@@ -20,10 +20,9 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import { Link, useRouteMatch } from "react-router-dom"
+import { Link } from "react-router-dom"
 import rowValues from "./dataRows"
 import { useSelector } from "react-redux"
-import LanguageSwitches from "../../../Components/Togglebutton/LanguageSwitches"
 
 function createData(image, sku, productName, status, stock, price, category, date) {
     return { image, sku, productName, status, stock, price, category, date };
@@ -70,17 +69,17 @@ function EnhancedTableHead(props) {
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
-    const lang_mode = useSelector(state => state.Languages.default.products.all_products)
+    const lang_mode = useSelector(state => state.Languages.default.products.all_products.row_titles)
 
     const headCells = [
-        { id: 'image', numeric: false, disablePadding: true, label: lang_mode.row_titles[0] },
-        { id: 'sku', numeric: false, disablePadding: false, label: lang_mode.row_titles[1] },
-        { id: 'productName', numeric: false, disablePadding: false, label: lang_mode.row_titles[2] },
-        { id: 'status', numeric: false, disablePadding: false, label: lang_mode.row_titles[3] },
-        { id: 'stock', numeric: false, disablePadding: false, label: lang_mode.row_titles[4] },
-        { id: 'price', numeric: false, disablePadding: false, label: lang_mode.row_titles[5] },
-        { id: 'category', numeric: false, disablePadding: false, label: lang_mode.row_titles[6] },
-        { id: 'date', numeric: false, disablePadding: false, label: lang_mode.row_titles[7] },
+        { id: 'image', numeric: false, disablePadding: true, label: lang_mode[0] },
+        { id: 'sku', numeric: false, disablePadding: false, label: lang_mode[1] },
+        { id: 'productName', numeric: false, disablePadding: false, label: lang_mode[2] },
+        { id: 'status', numeric: false, disablePadding: false, label: lang_mode[3] },
+        { id: 'stock', numeric: false, disablePadding: false, label: lang_mode[4] },
+        { id: 'price', numeric: false, disablePadding: false, label: lang_mode[5] },
+        { id: 'category', numeric: false, disablePadding: false, label: lang_mode[6] },
+        { id: 'date', numeric: false, disablePadding: false, label: lang_mode[7] },
     ];
     return (
         <TableHead>
@@ -152,6 +151,7 @@ const useToolbarStyles = makeStyles((theme) => ({
 const EnhancedTableToolbar = (props) => {
     const classes = useToolbarStyles();
     const { numSelected } = props;
+    const lang_mode = useSelector(state => state.Languages.default.products.all_products.others[0])
 
     return (
         <Toolbar
@@ -161,7 +161,7 @@ const EnhancedTableToolbar = (props) => {
         >
             {numSelected > 0 ? (
                 <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
-                    {numSelected} selected
+                    {numSelected} {lang_mode}
                 </Typography>
             ) : ("")
             }
@@ -234,6 +234,7 @@ export default function DataTable() {
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const lang_mode = useSelector(state => state.Languages.default.products.all_products)
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -294,25 +295,20 @@ export default function DataTable() {
             if (row.status === "online")
                 ++onlineStatus;
         })
-        return <span>{onlineStatus}</span>
+        return onlineStatus
     }
 
     return (
         <div className={classes.root}>
-
             <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-                Products
+                {lang_mode.heading}
             </Typography>
+            <Typography className={classes.title} variant="subtitle1" id="tableTitle" component="a">
 
-            <Typography className={classes.title} variant="subtitle1" id="tableTitle" component="a">
-                All({rows.length})
+                {`${lang_mode.links[0]} (${rows.length})`}
             </Typography>
             <Typography className={classes.title} variant="subtitle1" id="tableTitle" component="a">
-                Online ({statusChecking()})
-            </Typography>
-
-            <Typography className={classes.title} variant="subtitle1" id="tableTitle" component="a">
-                <LanguageSwitches />
+                {`${lang_mode.links[1]}`} <span>{`(${statusChecking()})`}</span>
             </Typography>
 
             <Link
@@ -351,66 +347,79 @@ export default function DataTable() {
                                     const labelId = `enhanced-table-checkbox-${index}`;
 
                                     return (
-                                        <TableRow
-                                            hover
-                                            onClick={(event) => handleClick(event, row.sku)}
-                                            role="checkbox"
-                                            aria-checked={isItemSelected}
-                                            tabIndex={-1}
-                                            key={row.sku}
-                                            selected={isItemSelected}
-                                            className={classes.tableRow}
-                                        >
-                                            <TableCell padding="checkbox">
-                                                <Checkbox
-                                                    checked={isItemSelected}
-                                                    inputProps={{ 'aria-labelledby': labelId }}
-                                                />
-                                            </TableCell>
-                                            <TableCell>
-                                                {
-                                                    !row.image || row.image === "" ?
-                                                        <div className={classes.emptyimage}></div>
-                                                        :
-                                                        <img src={row.image} className={classes.rowImages} />
-                                                }
-                                            </TableCell>
-                                            <TableCell>{row.sku}</TableCell>
-                                            <TableCell>{row.productName}</TableCell>
-                                            <TableCell>
-                                                {row.status === "Pending" || row.status === "pending" ?
-                                                    <span
-                                                        style={{
-                                                            backgroundColor: "#797979",
-                                                            padding: "0.2rem 1rem",
-                                                            borderRadius: "0.2rem",
-                                                            color: "#ffffff"
-                                                        }}
-                                                    >{row.status}</span>
-                                                    :
-                                                    row.status === "online" || row.status === "Online" ?
+                                        <>
+                                            <TableRow
+                                                hover
+                                                onClick={(event) => handleClick(event, row.sku)}
+                                                role="checkbox"
+                                                aria-checked={isItemSelected}
+                                                tabIndex={-1}
+                                                key={row.sku}
+                                                selected={isItemSelected}
+                                                className={classes.tableRow}
+                                            >
+                                                <TableCell padding="checkbox">
+                                                    <Checkbox
+                                                        checked={isItemSelected}
+                                                        inputProps={{ 'aria-labelledby': labelId }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell>
+                                                    {
+                                                        !row.image || row.image === "" ?
+                                                            <div className={classes.emptyimage}></div>
+                                                            :
+                                                            <img src={row.image} className={classes.rowImages} />
+                                                    }
+                                                </TableCell>
+                                                <TableCell>{row.sku}</TableCell>
+                                                <TableCell>{row.productName}</TableCell>
+                                                <TableCell>
+                                                    {row.status === "Pending" || row.status === "pending" ?
                                                         <span
                                                             style={{
-                                                                backgroundColor: "#51c03e",
+                                                                backgroundColor: "#797979",
                                                                 padding: "0.2rem 1rem",
                                                                 borderRadius: "0.2rem",
                                                                 color: "#ffffff"
-                                                            }}>{row.status}</span>
+                                                            }}
+                                                        >{row.status}</span>
                                                         :
-                                                        <span
-                                                            style={{
-                                                                backgroundColor: "#c70606",
-                                                                padding: "0.2rem 1rem",
-                                                                borderRadius: "0.2rem",
-                                                                color: "#ffffff"
-                                                            }}>{row.status}</span>
-                                                }
-                                            </TableCell>
-                                            <TableCell>{row.stock}</TableCell>
-                                            <TableCell>{row.price}</TableCell>
-                                            <TableCell>{row.category}</TableCell>
-                                            <TableCell>{row.date}</TableCell>
-                                        </TableRow>
+                                                        row.status === "online" || row.status === "Online" ?
+                                                            <span
+                                                                style={{
+                                                                    backgroundColor: "#51c03e",
+                                                                    padding: "0.2rem 1rem",
+                                                                    borderRadius: "0.2rem",
+                                                                    color: "#ffffff"
+                                                                }}>{row.status}</span>
+                                                            :
+                                                            <span
+                                                                style={{
+                                                                    backgroundColor: "#c70606",
+                                                                    padding: "0.2rem 1rem",
+                                                                    borderRadius: "0.2rem",
+                                                                    color: "#ffffff"
+                                                                }}>{row.status}</span>
+                                                    }
+                                                </TableCell>
+                                                <TableCell>{row.stock}</TableCell>
+                                                <TableCell>{row.price}</TableCell>
+                                                <TableCell>{row.category}</TableCell>
+                                                <TableCell>{row.date}</TableCell>
+                                                <TableCell>
+                                                    <Link
+                                                to={
+                                                    {
+                                                        pathname: "/Products",
+                                                        search: `?EditProducts=true&productId=${row.sku}`,
+
+                                                    }}>
+                                                {lang_mode.links[3]}
+                                            </Link></TableCell>
+                                            </TableRow>
+                                          
+                                        </>
                                     );
                                 })}
                             {emptyRows > 0 && (
@@ -435,6 +444,6 @@ export default function DataTable() {
                 control={<Switch checked={dense} onChange={handleChangeDense} />}
                 label="Dense padding"
             />
-        </div>
+        </div >
     );
 }

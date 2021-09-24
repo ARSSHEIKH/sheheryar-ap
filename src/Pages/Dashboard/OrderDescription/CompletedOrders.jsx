@@ -74,14 +74,14 @@ export default function CompletedOrders({lang_mode}) {
 
 
         <div className={`${classes.reports}`}>
-            <div >Completed Orders</div>
+            <div >{lang_mode.orders[1]}</div>
             <hr />
 
             <div className={`${classes.completedOrders}`}>
 
                 {/* headings */}
                 {/* headings */}
-                {lang_mode.map((val, ind) => {
+                {lang_mode.orders_details.map((val, ind) => {
                     return (
                         <div className={classes.ordersTitle} key={ind}>
                             <div>{val}</div>

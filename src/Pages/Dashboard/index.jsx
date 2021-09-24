@@ -141,10 +141,10 @@ export default function Dashboard() {
 
             <div className={classes.dvBottom}>
                 <div className={`${classes.ordersChart}`}>
-                    <DetailedActiveOrders lang_mode={lang_mode.orders_details}/>
+                    <DetailedActiveOrders lang_mode={lang_mode}/>
                 </div>
                 <div className={`${classes.ordersChart}`}>
-                    <CompletedOrders lang_mode={lang_mode.orders_details}/>
+                    <CompletedOrders lang_mode={lang_mode}/>
                 </div>
             </div>
 

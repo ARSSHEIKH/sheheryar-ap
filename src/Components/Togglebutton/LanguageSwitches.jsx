@@ -1,33 +1,32 @@
-import {useState} from "react";
+import { useState } from "react";
 import { withStyles } from "@material-ui/core/styles";
-import { purple } from "@material-ui/core/colors";
-import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const IOSSwitch = withStyles((theme) => ({
   root: {
     width: 42,
     height: 26,
     padding: 0,
-    margin: theme.spacing(1)
+    margin: theme.spacing(1),
+    marginLeft: theme.spacing(3)
+
   },
   switchBase: {
     padding: 1,
     "&$checked": {
       transform: "translateX(16px)",
-      color: "#151515",
+      color: "#e1f21f",
       "&$checked + $track": {
-        backgroundColor: "#5d5d5d"
+        backgroundColor: "#fff"
       }
     },
     "&$focusVisible $thumb": {
       color: "#52d869",
-      border: "6px solid #fff"
+      border: "6px solid #000"
     }
   },
   thumb: {
@@ -37,7 +36,7 @@ const IOSSwitch = withStyles((theme) => ({
   track: {
     borderRadius: 26 / 2,
     border: `1px solid ${theme.palette.grey[400]}`,
-    backgroundColor: theme.palette.grey[50],
+    backgroundColor: "#e1f21f",
     opacity: 1,
     transition: theme.transitions.create(["background-color", "border"])
   },
@@ -61,18 +60,23 @@ const IOSSwitch = withStyles((theme) => ({
 });
 
 export default function LanguageSwitches() {
-const [lang_toggle, set_lang_toggle] = useState(true);
-const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const lang_mode = useSelector(state => state.Languages.default.drawer.language_switches);
+
+  const [lang_toggle, set_lang_toggle] = useState(true);
+
+
   const handleChange = (event) => {
     set_lang_toggle(event.target.checked)
-        dispatch({type: event.target.checked})
-    
+    dispatch({ type: event.target.checked })
   };
 
   return (
-    <Typography component="div">
+    <Typography component="div" style={{
+      marginLeft: "2rem", color: "#ffffff"
+    }}>
       <Grid component="label" container alignItems="center" spacing={1}>
-        <Grid item>{lang_toggle ? "EN" : "AR"} Mode</Grid>
+        <Grid item>{lang_toggle ? "قم بالتبديل إلى اللغة العربية" : "Switch to English"}</Grid>
         <Grid item>
           <FormControlLabel
             control={

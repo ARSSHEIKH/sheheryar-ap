@@ -21,7 +21,9 @@ export default function CustomizedDialogs({ modal }) {
   const history = useHistory()
 
   useEffect(() => {
+    modal ? 
     setOpen(true)
+    : setOpen(false)
   }, [modal])
 
   const handleClickOpen = () => {

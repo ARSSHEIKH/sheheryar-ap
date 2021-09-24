@@ -6,10 +6,10 @@ import { BootstrapInput } from "../../../Components/StylesComponents/Products/Ad
 import UseStyles from "../../../Components/StylesComponents/Products/AddProducts/useStyles";
 import CoverImage from "./CoverImage"
 import { useDispatch, useSelector } from 'react-redux';
-import {category_type, procduct_type} from "./selectValues";
+import { category_type } from "./selectValues";
+import MultipleSelect from "../../../Components/DropDownSelect/ProductType/"
 
-import Variation from "./Variation"
-
+import Variation from "./Variation/"
 
 export default function Form() {
     const classes = UseStyles();
@@ -24,10 +24,12 @@ export default function Form() {
     }
 
     return (
-        <div>
+        <div className={classes.root}>
             <div>
                 <CoverImage />
             </div>
+
+            {/* product_name_en */}
             <div>
                 <BootstrapInput
                     id="demo-customized-textbox" placeholder={lang_mode.textboxes[0]}
@@ -36,12 +38,16 @@ export default function Form() {
                     value={productdetails.product_name_en}
                 />
             </div>
+
+            {/* product_name_ar */}
             <div>
                 <BootstrapInput id="demo-customized-textbox" placeholder={lang_mode.textboxes[1]}
                     name="product_name_ar"
                     onChange={handleChange("product_name_ar")}
                     value={productdetails.product_name_ar} />
             </div>
+
+            {/* product_category */}
             <div>
                 <FormControl className={classes.margin}>
                     <NativeSelect
@@ -53,34 +59,22 @@ export default function Form() {
                         input={<BootstrapInput />}
                     >
                         <option value="" disabled >
-                        {lang_mode.dropdowns[0]}
+                            {lang_mode.dropdowns[0]}
                         </option>
                         {category_type.map((val, ind) => (<option key={ind} value={val}>{val}</option>))}
 
                     </NativeSelect>
                 </FormControl>
             </div>
+
+            {/* Product Type */}
             <div>
-                <FormControl className={classes.margin}>
-                    <NativeSelect
-                        id="age-native-label-placeholder"
-                        onChange={handleChange("product_type")}
-                        input={<BootstrapInput />}
-                        value={productdetails.product_type}
-                        defaultValue=""
-                    >
-                        <option value="" disabled >
-                        {lang_mode.dropdowns[1].product_type.Name}
-                        </option>
-                        {procduct_type.map((val, ind) => (<option key={ind} value={val}>{val}</option>))}
-                    
-                    </NativeSelect>
-                    <label>{lang_mode.dropdowns[1].product_type.optional}</label>
-                </FormControl>
+                <MultipleSelect placeholder="Product Type" product_type_values={productdetails.product_type} />
             </div>
-            
-            {/* <Variation id="addvariation"/> */}
-            
+
+            <Variation id="addvariation" lang_mode={lang_mode} />
+
+            {/* product_description_en */}
             <div>
                 <TextField
                     id="outlined-multiline-static"
@@ -93,6 +87,7 @@ export default function Form() {
                     variant="outlined"
                 />
             </div>
+            {/* product_description_ar */}
             <div>
                 <TextField
                     id="outlined-multiline-static"

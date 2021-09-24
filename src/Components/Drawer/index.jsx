@@ -1,9 +1,12 @@
 //#region  imports
 import React, { Suspense, useEffect } from 'react';
-import loadingImg from "../../images/loading-gif.gif";
+
 import AddProductsList from "./AddProductsList";
-import LanguageSwitches from "../Togglebutton/LanguageSwitches"
+import pagesname from "./pagesname";
+import LanguageSwitches from "../Togglebutton/LanguageSwitches";
+import AllRoutes from "./AllRoutes"
 import "../../App.css"
+import CircularProgress from "../../Components/ProgressBars/CircularProgress"
 
 //#region material-ui
 import clsx from 'clsx';
@@ -25,27 +28,26 @@ import ListItemButton from '@mui/material/ListItemButton';
 //#endregion
 
 //#region react-router
-import {
-    Link,
-    Route,
-    Switch,
-    useHistory,
-    useRouteMatch
-}
-    from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 //#endregion
 
-//#region Components Pages
-const Dashboard = React.lazy(() => import("../../Pages/Dashboard/"))
-const Products = React.lazy(() => import("../../Pages/Products/AllProducts/"))
-const AddProducts = React.lazy(() => import("../../Pages/Products/AddProducts"))
-
-//#endregion
 
 //#endregion
 
 const drawerWidth = 220;
 const useStyles = makeStyles((theme) => ({
+    '@global': {
+        '*::-webkit-scrollbar': {
+            width: '0.4em'
+        },
+        '*::-webkit-scrollbar-track': {
+            '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
+        },
+        '*::-webkit-scrollbar-thumb': {
+            backgroundColor: '#5d5d5d',
+            outline: '1px solid slategrey'
+        }
+    },
     root: {
         display: 'flex',
     },
@@ -93,7 +95,22 @@ const useStyles = makeStyles((theme) => ({
     drawerList: {
         borderRadius: "1rem",
         backgroundColor: "#151515",
-        margin: "0 1rem"
+        margin: "0 0.5rem",
+        overflowY: "auto",
+        padding: 0,
+        listStyle: "none",
+        height: "100%",
+        '&::-webkit-scrollbar': {
+            width: '0.4em'
+        },
+        '&::-webkit-scrollbar-track': {
+            boxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)',
+            webkitBoxShadow: 'inset 0 0 6px rgba(0,0,0,0.00)'
+        },
+        '&::-webkit-scrollbar-thumb': {
+            backgroundColor: 'rgba(0,0,0,.1)',
+            outline: '1px solid slategrey'
+        }
     },
     drawerHeader: {
         display: 'flex',
@@ -157,15 +174,16 @@ const useStyles = makeStyles((theme) => ({
             fontWeight: "600",
         }
     },
+    listItemSupport: {
+        marginTop: "7rem"
+    },
     ListItemText: {
         color: "#5d5d5d"
     },
     dvLoading: {
         display: "flex",
-        flexDirection: "row",
-        flexWrap: "wrap",
         justifyContent: "center",
-        margin: "12rem auto",
+        margin: "15rem auto",
     }
 }));
 
@@ -187,7 +205,6 @@ export default function DrawerPage() {
         color: "#000000",
     }
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
     useEffect(() => {
         try {
             const drawerChilds = document.getElementById("drawer");
@@ -199,15 +216,7 @@ export default function DrawerPage() {
     const handleClick = () => {
         setdropDown_open(!dropDown_open);
     };
-    const [onclickColor, setonclickColor] = React.useState(false);
-    const pages = [
-        "Dashboard",
-        "Products",
-        "Orders",
-        "Reports",
-        "Support",
-        "Settings"
-    ]
+
     //#endregion
 
     //#region handles
@@ -216,13 +225,6 @@ export default function DrawerPage() {
     };
     const handleDrawerClose = () => {
         setOpen(false);
-    };
-    const handleMenu = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
     };
     //#endregion
 
@@ -266,40 +268,51 @@ export default function DrawerPage() {
                     </IconButton>
                 </div>
                 <List className={classes.drawerList} >
-                    {pages.map((text, index) => {
+                    <br />
+                    {pagesname.map((text, index) => {
                         return (
                             text !== "Products" ?
                                 <>
-                                    <Link
-
+                                    <Link key={index} className={classes.Link}
                                         to={
                                             text === "Dashboard" ? "" :
                                                 `/${text.replaceAll(" ", "")}`
                                         }
-                                        key={index}
-                                        className={classes.Link}
                                     >
-                                        <ListItem button className={classes.LinkListItem}>
-                                            <ListItemText primary={text}
-                                                className={classes.ListItemText}
-                                            />
-                                        </ListItem>
+                                        {
+                                            text === "Support" ?
 
+                                                <ListItem button
+                                                    className={`${classes.LinkListItem} ${classes.listItemSupport}`}
+                                                    id={text}>
+                                                    <ListItemText primary={text}
+                                                        className={classes.ListItemText}
+                                                    />
+                                                </ListItem>
+                                                :
+                                                <ListItem button className={classes.LinkListItem} id={text}>
+                                                    <ListItemText primary={text}
+                                                        className={classes.ListItemText}
+                                                    />
+                                                </ListItem>
+                                        }
                                     </Link>
 
                                 </>
                                 :
                                 <>
                                     <List>
-                                        <ListItem button key={text}
-                                            className={classes.ListLinkItem}
-                                            id={text.replaceAll(" ", "")}
-                                            onClick={handleClick}>
-                                            <ListItemText className={classes.LinkListItem} primary={text}
-                                                style={!dropDown_open ? null : setstyle_product_dropdown}
-                                            >
-                                            </ListItemText>
-                                        </ListItem>
+                                        <Link to="/Products" className={classes.Link}>
+                                            <ListItem button key={text}
+                                                className={classes.ListLinkItem}
+                                                id={text.replaceAll(" ", "")}
+                                                onClick={handleClick}>
+                                                <ListItemText className={classes.LinkListItem} primary={text}
+                                                    style={!dropDown_open ? null : setstyle_product_dropdown}
+                                                >
+                                                </ListItemText>
+                                            </ListItem>
+                                        </Link>
                                         <Collapse in={dropDown_open} timeout="auto" unmountOnExit>
                                             <List component="div" disablePadding>
                                                 {
@@ -311,10 +324,16 @@ export default function DrawerPage() {
                                                                     key={ind}
                                                                     id={val.replaceAll(" ", "")}
                                                                     to={val === "All Products" ? "/Products" :
-                                                                        {
-                                                                            pathname: "/Products",
-                                                                            search: `?${val.replaceAll(" ", "")}=true`,
-                                                                        }}
+                                                                        val === "Add Products" ?
+
+                                                                            {
+                                                                                pathname: "/Products",
+                                                                                search: `?${val.replaceAll(" ", "")}=true`,
+                                                                            }
+                                                                            :
+                                                                            `/Products/${val.replaceAll(" ", "")}`
+
+                                                                    }
                                                                     onClick={
                                                                         () => {
                                                                             const this_id = document.getElementById(val.replaceAll(" ", ""))
@@ -343,7 +362,7 @@ export default function DrawerPage() {
                         )
                     }
                     )}
-                    
+
                     <LanguageSwitches />
                 </List>
             </Drawer>
@@ -354,16 +373,10 @@ export default function DrawerPage() {
             >
                 <Suspense fallback={
                     <div className={classes.dvLoading}>
-                        <img src={loadingImg} alt="loading" width="100" />
+                        <CircularProgress />
                     </div>
                 }>
-                    <Switch>
-                        <Route exact path="/" component={Dashboard} />
-                        <Route path="/Products" element={<Products />} >
-                            <Products />
-                        </Route>
-                    </Switch>
-                    <Route path="/Products" component={AddProducts} />
+                    <AllRoutes />
                 </Suspense>
             </main>
         </div>

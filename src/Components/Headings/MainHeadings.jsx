@@ -9,7 +9,7 @@ export default function MainHeadings({ headingName }) {
 export function PopUpMainHeading({ headingName }) {
     return (
         <>
-            <h4 className="popup_mainHeadings">{headingName}</h4>
+            <h2 className="popup_mainHeadings">{headingName}</h2>
         </>
     )
 }
